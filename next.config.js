@@ -1,13 +1,11 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
 
-  // Keep using SSR (do NOT use output: 'export')
   async rewrites() {
     return [
       {
         source: "/api/:path*",
-        destination: "https://attendify-wnl8.onrender.com/api/:path*", // Proxy to Flask backend on Render
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
       },
     ];
   },

@@ -1,13 +1,16 @@
 {
   "hosting": {
-    "site": "attendify-d5487",
-    "public": ".next",
+    "public": "out",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
     "rewrites": [
+      {
+        "source": "/api/**",
+        "destination": "https://attendify-wnl8.onrender.com/api/**"
+      },
       {
         "source": "**",
         "destination": "/index.html"
