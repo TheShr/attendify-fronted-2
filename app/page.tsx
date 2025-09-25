@@ -27,20 +27,23 @@ function LoginForm() {
 
     setLoading(true)
     try {
-      const res = await apiJson<{ role: string; user_id: number }>(
+      const res = await apiJson<{ access_token?: string; role: string; user_id: number }>(
         '/auth/login',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, password, role }),
-          credentials: 'include',
         }
       )
 
-      // Save user in localStorage for later use
-      localStorage.setItem('user', JSON.stringify(res))
+      // 🔑 Save auth data in localStorage
+      if (res.access_token) {
+        localStorage.setItem('token', res.access_token)
+      }
+      localStorage.setItem('role', res.role)
+      localStorage.setItem('user_id', res.user_id.toString())
 
-      // Navigate based on backend role
+      // 🚀 Redirect based on role
       const userRole = res.role?.toUpperCase()
       if (userRole === 'STUDENT') router.push('/student')
       else if (userRole === 'TEACHER') router.push('/teacher')
@@ -62,9 +65,7 @@ function LoginForm() {
       {/* Heading */}
       <div className="text-center">
         <h1 className="text-4xl font-bold">Attendify</h1>
-        <p className="text-sm text-muted-foreground">
-          AI-powered attendance management system
-        </p>
+        <p className="text-sm text-muted-foreground">AI-powered attendance management system</p>
       </div>
 
       {/* Login Card */}
@@ -124,7 +125,7 @@ function LoginForm() {
             className="w-full bg-black text-white rounded-md py-2"
             disabled={loading}
           >
-            {loading ? 'Signing in…' : 'Sign In'}
+            {loading ? 'Signing in...' : 'Sign In'}
           </button>
 
           <p className="text-xs text-center text-gray-500">
@@ -135,9 +136,7 @@ function LoginForm() {
 
           <p className="text-xs text-center text-gray-500">
             Need an account?{' '}
-            <a href="/admin/register" className="underline text-blue-600">
-              Register as Admin
-            </a>
+            <a href="/admin/register" className="underline text-blue-600">Register as Admin</a>
           </p>
         </form>
       </Card>
