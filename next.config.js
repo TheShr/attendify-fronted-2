@@ -6,7 +6,7 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://attendify-wnl8.onrender.com/api/:path*", // Flask backend on Render
+        destination: "https://attendify-wnl8.onrender.com/api/:path*", // Flask backend
       },
     ];
   },
