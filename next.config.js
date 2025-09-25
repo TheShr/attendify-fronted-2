@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Don’t use output: 'export' since you need API rewrites
   reactStrictMode: true,
 
+  // Keep using SSR (do NOT use output: 'export')
   async rewrites() {
     return [
       {
