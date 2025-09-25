@@ -1,3 +1,4 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
 
@@ -5,7 +6,7 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
+        destination: "https://attendify-wnl8.onrender.com/api/:path*", // Flask backend on Render
       },
     ];
   },
