@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -37,6 +37,9 @@ function LoginForm() {
         }
       )
 
+      // Save user in localStorage for later use
+      localStorage.setItem('user', JSON.stringify(res))
+
       // Navigate based on backend role
       const userRole = res.role?.toUpperCase()
       if (userRole === 'STUDENT') router.push('/student')
@@ -59,7 +62,9 @@ function LoginForm() {
       {/* Heading */}
       <div className="text-center">
         <h1 className="text-4xl font-bold">Attendify</h1>
-        <p className="text-sm text-muted-foreground">AI-powered attendance management system</p>
+        <p className="text-sm text-muted-foreground">
+          AI-powered attendance management system
+        </p>
       </div>
 
       {/* Login Card */}
@@ -119,7 +124,7 @@ function LoginForm() {
             className="w-full bg-black text-white rounded-md py-2"
             disabled={loading}
           >
-            {loading ? 'Signing in?' : 'Sign In'}
+            {loading ? 'Signing in…' : 'Sign In'}
           </button>
 
           <p className="text-xs text-center text-gray-500">
@@ -130,7 +135,9 @@ function LoginForm() {
 
           <p className="text-xs text-center text-gray-500">
             Need an account?{' '}
-            <a href="/admin/register" className="underline text-blue-600">Register as Admin</a>
+            <a href="/admin/register" className="underline text-blue-600">
+              Register as Admin
+            </a>
           </p>
         </form>
       </Card>
