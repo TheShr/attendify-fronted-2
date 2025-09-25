@@ -1,4 +1,4 @@
-'use client'
+ï»¿'use client'
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -87,7 +87,7 @@ export default function AdminRegisterPage() {
               <Input id="confirm" type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} required />
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Registering…' : 'Register'}
+              {loading ? 'Registering?' : 'Register'}
             </Button>
 
             <p className="text-xs text-center text-gray-500">
