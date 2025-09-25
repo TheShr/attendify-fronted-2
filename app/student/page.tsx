@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { AttendanceOverview } from "@/components/student/attendance-overview"

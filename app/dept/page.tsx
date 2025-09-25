@@ -1,4 +1,4 @@
-ï»¿'use client'
+'use client'
 
 import React, { useMemo, useState } from 'react'
 import { DashboardLayout } from '@/components/layout/dashboard-layout'
@@ -43,16 +43,16 @@ const DATA_BY_TERM: Record<
   semester: {
     kpis: [
       { label: 'Avg Attendance (All Colleges)', value: '82%', delta: '+1.8 pts', positive: true },
-      { label: 'Compliance (â‰¥75%)', value: '71%', delta: '+2.4 pts', positive: true },
+      { label: 'Compliance (=75%)', value: '71%', delta: '+2.4 pts', positive: true },
       { label: 'At-Risk Cohorts', value: '18', delta: '-3', positive: true },
       { label: 'Institutions Reporting', value: '124', delta: '+7', positive: true }
     ],
     ops: { onlineCompat: 86, geofencing: 92 },
     complianceBands: [
-      { band: 'â‰¥ 90%', institutions: 34, share: 27 },
-      { band: '80â€“89%', institutions: 41, share: 33 },
-      { band: '75â€“79%', institutions: 13, share: 11 },
-      { band: '60â€“74%', institutions: 28, share: 23 },
+      { band: '= 90%', institutions: 34, share: 27 },
+      { band: '80–89%', institutions: 41, share: 33 },
+      { band: '75–79%', institutions: 13, share: 11 },
+      { band: '60–74%', institutions: 28, share: 23 },
       { band: '< 60%', institutions: 8, share: 6 }
     ],
     cohorts: [
@@ -66,16 +66,16 @@ const DATA_BY_TERM: Record<
   '30d': {
     kpis: [
       { label: 'Avg Attendance (All Colleges)', value: '79%', delta: '-2.2 pts', positive: false },
-      { label: 'Compliance (â‰¥75%)', value: '66%', delta: '-3.0 pts', positive: false },
+      { label: 'Compliance (=75%)', value: '66%', delta: '-3.0 pts', positive: false },
       { label: 'At-Risk Cohorts', value: '24', delta: '+6', positive: false },
       { label: 'Institutions Reporting', value: '118', delta: '-4', positive: false }
     ],
     ops: { onlineCompat: 82, geofencing: 90 },
     complianceBands: [
-      { band: 'â‰¥ 90%', institutions: 22, share: 19 },
-      { band: '80â€“89%', institutions: 36, share: 31 },
-      { band: '75â€“79%', institutions: 20, share: 17 },
-      { band: '60â€“74%', institutions: 29, share: 25 },
+      { band: '= 90%', institutions: 22, share: 19 },
+      { band: '80–89%', institutions: 36, share: 31 },
+      { band: '75–79%', institutions: 20, share: 17 },
+      { band: '60–74%', institutions: 29, share: 25 },
       { band: '< 60%', institutions: 11, share: 9 }
     ],
     cohorts: [
@@ -87,16 +87,16 @@ const DATA_BY_TERM: Record<
   yoy: {
     kpis: [
       { label: 'Avg Attendance (All Colleges)', value: '84%', delta: '+3.6 pts', positive: true },
-      { label: 'Compliance (â‰¥75%)', value: '74%', delta: '+5.1 pts', positive: true },
+      { label: 'Compliance (=75%)', value: '74%', delta: '+5.1 pts', positive: true },
       { label: 'At-Risk Cohorts', value: '15', delta: '-7', positive: true },
       { label: 'Institutions Reporting', value: '131', delta: '+15', positive: true }
     ],
     ops: { onlineCompat: 88, geofencing: 94 },
     complianceBands: [
-      { band: 'â‰¥ 90%', institutions: 40, share: 30 },
-      { band: '80â€“89%', institutions: 45, share: 34 },
-      { band: '75â€“79%', institutions: 12, share: 9 },
-      { band: '60â€“74%', institutions: 26, share: 20 },
+      { band: '= 90%', institutions: 40, share: 30 },
+      { band: '80–89%', institutions: 45, share: 34 },
+      { band: '75–79%', institutions: 12, share: 9 },
+      { band: '60–74%', institutions: 26, share: 20 },
       { band: '< 60%', institutions: 8, share: 6 }
     ],
     cohorts: [
@@ -125,7 +125,7 @@ export default function EducationDeptPage() {
   /* ----------------------------- Export actions ----------------------------- */
   function downloadCSV() {
     const lines: string[] = []
-    lines.push('Education Department â€” Insights')
+    lines.push('Education Department — Insights')
     lines.push(`Term,${term},Region,${region}`)
     lines.push('')
     lines.push('KPI,Value,Delta')
@@ -161,7 +161,7 @@ export default function EducationDeptPage() {
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Education Dept â€” Brief (${term}, ${region})</title>
+<title>Education Dept — Brief (${term}, ${region})</title>
 <style>
   body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;padding:24px;color:#111}
   h1{font-size:22px;margin:0 0 8px}
@@ -174,8 +174,8 @@ export default function EducationDeptPage() {
 </style>
 </head>
 <body>
-  <h1>Smart Attendance â€” Education Department Brief</h1>
-  <div class="muted">Term: <b>${term}</b> Â· Region: <b>${region}</b></div>
+  <h1>Smart Attendance — Education Department Brief</h1>
+  <div class="muted">Term: <b>${term}</b> · Region: <b>${region}</b></div>
 
   <h2>Key Indicators</h2>
   ${kpis.map(k => `<div class="kpi"><div>${k.label}</div><div><b>${k.value}</b> ${k.delta ? `(${k.delta})` : ''}</div></div>`).join('')}
@@ -301,7 +301,7 @@ export default function EducationDeptPage() {
             <div key={b.band}>
               <div className="flex items-center justify-between text-sm mb-2">
                 <span className="font-medium">{b.band}</span>
-                <span className="text-muted-foreground">{b.institutions} inst. â€¢ {b.share}%</span>
+                <span className="text-muted-foreground">{b.institutions} inst. • {b.share}%</span>
               </div>
               <div className="h-2 w-full rounded bg-muted">
                 <div className="h-2 rounded bg-foreground" style={{ width: `${b.share}%` }} />

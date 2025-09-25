@@ -119,7 +119,7 @@ function LoginForm() {
             className="w-full bg-black text-white rounded-md py-2"
             disabled={loading}
           >
-            {loading ? 'Signing in…' : 'Sign In'}
+            {loading ? 'Signing in?' : 'Sign In'}
           </button>
 
           <p className="text-xs text-center text-gray-500">

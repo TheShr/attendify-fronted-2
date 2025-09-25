@@ -12,7 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Users, Calendar, Clock, CheckCircle, Loader2 } from "lucide-react";
 
 import AttendanceSession from "@/components/teacher/attendance-session";
-import { API_BASE } from "@/lib/routes"; // ✅ central API base
+import { API_BASE } from "@/lib/api"; // ✅ central API base
 
 interface ClassRow {
   id: number;

@@ -1,4 +1,4 @@
-ï»¿'use client'
+'use client'
 
 import React, { useMemo, useState } from 'react'
 import { DashboardLayout } from '@/components/layout/dashboard-layout'
@@ -156,7 +156,7 @@ export default function PolicymakerDashboard() {
 <html>
 <head>
 <meta charset="utf-8">
-<title>Policy Brief â€” ${range} â€” ${region}</title>
+<title>Policy Brief — ${range} — ${region}</title>
 <style>
   body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;padding:24px;color:#111}
   h1{font-size:22px;margin:0 0 8px}
@@ -169,8 +169,8 @@ export default function PolicymakerDashboard() {
 </style>
 </head>
 <body>
-  <h1>Smart Attendance â€” Policy Brief</h1>
-  <div class="muted">Timeframe: <b>${range}</b> Â· Region: <b>${region}</b></div>
+  <h1>Smart Attendance — Policy Brief</h1>
+  <div class="muted">Timeframe: <b>${range}</b> · Region: <b>${region}</b></div>
 
   <h2>Key Indicators</h2>
   ${kpis
@@ -184,7 +184,7 @@ export default function PolicymakerDashboard() {
     )
     .join('')}
 
-  <h2>Compliance by Region (â‰¥ 75%)</h2>
+  <h2>Compliance by Region (= 75%)</h2>
   <table>
     <thead><tr><th>Region</th><th>Compliance</th></tr></thead>
     <tbody>
@@ -223,7 +223,7 @@ export default function PolicymakerDashboard() {
   }
 
   return (
-    <DashboardLayout title="Policymaker â€” National KPIs" userType="policymaker" navigation={navigation}>
+    <DashboardLayout title="Policymaker — National KPIs" userType="policymaker" navigation={navigation}>
       {/* Controls */}
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <div className="text-sm text-muted-foreground">Timeframe:</div>
@@ -278,7 +278,7 @@ export default function PolicymakerDashboard() {
       <Card className="mt-6">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <ShieldCheck className="h-5 w-5" /> Policy Compliance by Region (â‰¥ 75% Attendance)
+            <ShieldCheck className="h-5 w-5" /> Policy Compliance by Region (= 75% Attendance)
           </CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4 md:grid-cols-2">
@@ -359,9 +359,9 @@ export default function PolicymakerDashboard() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 text-sm text-muted-foreground">
-          <p>â€¢ Incentivize districts improving compliance from 65% â†’ 75% within the semester.</p>
-          <p>â€¢ Trigger early-warning outreach for sharp month-on-month declines.</p>
-          <p>â€¢ Standardize remote/online class compatibility reporting across regions.</p>
+          <p>• Incentivize districts improving compliance from 65% ? 75% within the semester.</p>
+          <p>• Trigger early-warning outreach for sharp month-on-month declines.</p>
+          <p>• Standardize remote/online class compatibility reporting across regions.</p>
         </CardContent>
       </Card>
     </DashboardLayout>
