@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
+import { apiJson } from '@/lib/api'
 
 export default function AdminRegisterPage() {
   const router = useRouter()
@@ -34,13 +35,17 @@ export default function AdminRegisterPage() {
 
     setLoading(true)
     try {
-      // TODO: call real API; mocked for now
-      // await fetch('/api/admin/register', { method:'POST', body: JSON.stringify({ username, password }) })
-      // Store nothing sensitive in localStorage here (registration only).
+      await apiJson("/auth/register/admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+        credentials: "include",
+      })
+
       // On success, go back to login WITH a success flag in the URL:
       router.push('/?registered=1')
-    } catch (e) {
-      setError('Something went wrong. Please try again.')
+    } catch (e: any) {
+      setError(e?.message ?? 'Something went wrong. Please try again.')
     } finally {
       setLoading(false)
     }

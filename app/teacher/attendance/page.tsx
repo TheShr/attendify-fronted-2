@@ -11,17 +11,16 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Users, Calendar, Clock, CheckCircle, Loader2 } from "lucide-react";
 
-// ✅ Default import (fixes "Element type is invalid" if component exports default)
 import AttendanceSession from "@/components/teacher/attendance-session";
+import { API_BASE } from "@/lib/routes"; // ✅ central API base
 
 interface ClassRow {
   id: number;
-  class_name: string;
-  section: string | null;
-  subject: string | null;
-  schedule_info: string | null;
-  created_at: string;
-  student_count: number;
+  code: string;
+  name: string;
+  semester: number;
+  credits: number;
+  created_at?: string;
 }
 
 interface StudentRow {
@@ -50,21 +49,24 @@ export default function AttendancePage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
+  // ✅ Load teacher courses
   useEffect(() => {
     let active = true;
     async function loadClasses() {
       setClassesLoading(true);
       try {
-        const res = await fetch("/api/classes");
+        const res = await fetch(`${API_BASE}/api/teacher/courses`, {
+          credentials: "include",
+        });
         if (!res.ok) throw new Error(`Failed to load classes (${res.status})`);
         const payload = await res.json();
-        if (!payload?.ok) throw new Error(payload?.error ?? "Failed to load classes");
-        if (!Array.isArray(payload.data)) throw new Error("Invalid classes payload");
+        if (!Array.isArray(payload)) throw new Error("Invalid courses payload");
+
         if (active) {
-          setClasses(payload.data);
+          setClasses(payload);
           setSelectedClassId((prev) => {
             if (prev) return prev;
-            if (payload.data.length === 1) return String(payload.data[0].id);
+            if (payload.length === 1) return String(payload[0].id);
             return prev;
           });
         }
@@ -83,6 +85,7 @@ export default function AttendancePage() {
     };
   }, []);
 
+  // ✅ Load students for a course
   useEffect(() => {
     if (!selectedClassId) {
       setStudents([]);
@@ -95,15 +98,15 @@ export default function AttendancePage() {
       setError(null);
       setSuccess(null);
       try {
-        const res = await fetch(`/api/classes?class_id=${selectedClassId}&with_students=1`);
+        const res = await fetch(`${API_BASE}/api/teacher/courses/${selectedClassId}/students`, {
+          credentials: "include",
+        });
         if (!res.ok) throw new Error(`Failed to load students (${res.status})`);
         const payload = await res.json();
-        if (!payload?.ok) throw new Error(payload?.error ?? "Failed to load students");
-        if (!payload?.data?.students || !Array.isArray(payload.data.students)) {
-          throw new Error("Invalid students payload");
-        }
+        if (!Array.isArray(payload)) throw new Error("Invalid students payload");
+
         if (active) {
-          const studentRows: StudentRow[] = payload.data.students;
+          const studentRows: StudentRow[] = payload;
           setStudents(studentRows);
           setMarks(() => {
             const next: Record<number, "present" | "absent"> = {};
@@ -140,6 +143,7 @@ export default function AttendancePage() {
     setMarks(next);
   };
 
+  // ✅ Save attendance
   const handleSubmit = async () => {
     if (!selectedClassId) return setError("Please select a class before saving attendance.");
     if (!date) return setError("Please choose a date for this attendance record.");
@@ -160,13 +164,16 @@ export default function AttendancePage() {
           recognized_name: null,
         })),
       };
-      const res = await fetch("/api/attendance/history", {
+
+      const res = await fetch(`${API_BASE}/api/attendance/history`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(payload),
       });
+
       const data = await res.json();
-      if (!res.ok || !data?.ok) throw new Error(data?.error ?? "Failed to save attendance");
+      if (!res.ok) throw new Error(data?.error ?? "Failed to save attendance");
       setSuccess(`Saved ${data.inserted ?? students.length} attendance record(s).`);
     } catch (err: any) {
       console.error(err);
@@ -184,7 +191,6 @@ export default function AttendancePage() {
   return (
     <DashboardLayout title="Attendance Management" userType="teacher" navigation={navigation}>
       <div className="space-y-6">
-        {/* Facial Attendance (top) */}
         <AttendanceSession />
 
         {/* Controls */}
@@ -222,7 +228,7 @@ export default function AttendancePage() {
                 <SelectContent>
                   {classes.map((cls) => (
                     <SelectItem key={cls.id} value={String(cls.id)}>
-                      {cls.class_name}{cls.section ? ` • ${cls.section}` : ""}
+                      {cls.name} ({cls.code})
                     </SelectItem>
                   ))}
                 </SelectContent>

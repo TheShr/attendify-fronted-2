@@ -3,6 +3,7 @@
 import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Card } from '@/components/ui/card'
+import { apiJson } from '@/lib/api'
 
 function LoginForm() {
   const router = useRouter()
@@ -12,24 +13,45 @@ function LoginForm() {
   const [role, setRole] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  function handleLogin(e: React.FormEvent) {
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
+    setError(null)
 
     if (!role || !username || !password) {
-      alert('Please fill all fields')
+      setError('Please fill all fields')
       return
     }
 
-    const user = { role, name: username, email: username + '@example.com' }
-    localStorage.setItem('user', JSON.stringify(user))
+    setLoading(true)
+    try {
+      const res = await apiJson<{ role: string; user_id: number }>(
+        '/auth/login',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password, role }),
+          credentials: 'include',
+        }
+      )
 
-    if (role === 'STUDENT') router.push('/student')
-    if (role === 'TEACHER') router.push('/teacher')
-    if (role === 'ADMIN') router.push('/admin')
-    if (role === 'MGMT') router.push('/mgmt')
-    if (role === 'DEPT') router.push('/dept')
-    if (role === 'POLICYMAKER') router.push('/policymaker')
+      // Navigate based on backend role
+      const userRole = res.role?.toUpperCase()
+      if (userRole === 'STUDENT') router.push('/student')
+      else if (userRole === 'TEACHER') router.push('/teacher')
+      else if (userRole === 'ADMIN') router.push('/admin')
+      else if (userRole === 'MGMT') router.push('/mgmt')
+      else if (userRole === 'DEPT') router.push('/dept')
+      else if (userRole === 'POLICYMAKER') router.push('/policymaker')
+      else router.push('/')
+    } catch (err: any) {
+      console.error(err)
+      setError(err?.message ?? 'Login failed')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -46,6 +68,12 @@ function LoginForm() {
           {justRegistered && (
             <div className="rounded-md bg-green-50 text-green-700 text-sm px-3 py-2 text-center">
               Admin registered successfully. Please log in.
+            </div>
+          )}
+
+          {error && (
+            <div className="rounded-md bg-red-50 text-red-700 text-sm px-3 py-2 text-center">
+              {error}
             </div>
           )}
 
@@ -86,8 +114,12 @@ function LoginForm() {
             />
           </div>
 
-          <button type="submit" className="w-full bg-black text-white rounded-md py-2">
-            Sign In
+          <button
+            type="submit"
+            className="w-full bg-black text-white rounded-md py-2"
+            disabled={loading}
+          >
+            {loading ? 'Signing in…' : 'Sign In'}
           </button>
 
           <p className="text-xs text-center text-gray-500">
