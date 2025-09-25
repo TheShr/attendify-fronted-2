@@ -1,13 +1,14 @@
 ﻿'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Card } from '@/components/ui/card'
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter()
   const search = useSearchParams()
   const justRegistered = search?.get('registered') === '1'
+
   const [role, setRole] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -15,7 +16,6 @@ export default function LoginPage() {
   function handleLogin(e: React.FormEvent) {
     e.preventDefault()
 
-    // TODO: Replace with real API later
     if (!role || !username || !password) {
       alert('Please fill all fields')
       return
@@ -34,13 +34,13 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-50 to-white p-4 space-y-6">
-      {/* Heading section outside the box */}
+      {/* Heading */}
       <div className="text-center">
         <h1 className="text-4xl font-bold">Attendify</h1>
         <p className="text-sm text-muted-foreground">AI-powered attendance management system</p>
       </div>
 
-      {/* The white card with form stays below */}
+      {/* Login Card */}
       <Card className="w-full max-w-md p-6">
         <form onSubmit={handleLogin} className="space-y-6">
           {justRegistered && (
@@ -51,7 +51,11 @@ export default function LoginPage() {
 
           <div>
             <label className="block text-sm font-medium">User Type</label>
-            <select value={role} onChange={(e) => setRole(e.target.value)} className="mt-1 block w-full border rounded-md p-2">
+            <select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="mt-1 block w-full border rounded-md p-2"
+            >
               <option value="">Select your role</option>
               <option value="STUDENT">Student</option>
               <option value="TEACHER">Teacher</option>
@@ -64,18 +68,34 @@ export default function LoginPage() {
 
           <div>
             <label className="block text-sm font-medium">Username</label>
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="mt-1 block w-full border rounded-md p-2" />
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="mt-1 block w-full border rounded-md p-2"
+            />
           </div>
 
           <div>
             <label className="block text-sm font-medium">Password</label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 block w-full border rounded-md p-2" />
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="mt-1 block w-full border rounded-md p-2"
+            />
           </div>
 
-          <button type="submit" className="w-full bg-black text-white rounded-md py-2">Sign In</button>
+          <button type="submit" className="w-full bg-black text-white rounded-md py-2">
+            Sign In
+          </button>
+
           <p className="text-xs text-center text-gray-500">
-            Need public insights? <a href="/dept" className="underline">Education Dept</a> &middot; <a href="/policymaker" className="underline">Policymaker</a>
+            Need public insights?{' '}
+            <a href="/dept" className="underline">Education Dept</a> &middot;{' '}
+            <a href="/policymaker" className="underline">Policymaker</a>
           </p>
+
           <p className="text-xs text-center text-gray-500">
             Need an account?{' '}
             <a href="/admin/register" className="underline text-blue-600">Register as Admin</a>
@@ -83,5 +103,13 @@ export default function LoginPage() {
         </form>
       </Card>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginForm />
+    </Suspense>
   )
 }

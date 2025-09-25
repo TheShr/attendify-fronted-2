@@ -46,7 +46,6 @@ export function CameraFeed({ isActive, onToggle, onRecognized, classId }: Camera
     } else {
       stopCamera()
     }
-
     return () => {
       stopCamera()
     }
@@ -112,10 +111,7 @@ export function CameraFeed({ isActive, onToggle, onRecognized, classId }: Camera
   }
 
   const captureAndAnalyzeFrame = async () => {
-    if (inFlightRef.current) {
-      return
-    }
-
+    if (inFlightRef.current) return
     if (!videoRef.current || !canvasRef.current) return
 
     const video = videoRef.current
@@ -229,11 +225,17 @@ export function CameraFeed({ isActive, onToggle, onRecognized, classId }: Camera
             {latestRecords.length > 0 ? (
               <div className="space-y-2 max-h-32 overflow-y-auto">
                 {latestRecords.map((record, index) => (
-                  <div key={`${record.createdAt}-${index}`} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                  <div
+                    key={`${record.createdAt}-${index}`}
+                    className="flex items-center justify-between p-2 bg-gray-50 rounded"
+                  >
                     <div>
                       <span className="text-sm font-medium">
                         {record.matched
-                          ? record.recognizedName || record.name || record.username || (record.studentId ? `ID ${record.studentId}` : "Unknown")
+                          ? record.recognizedName ||
+                            record.name ||
+                            record.username ||
+                            (record.studentId ? `ID ${record.studentId}` : "Unknown")
                           : "Unknown"}
                       </span>
                       {record.score !== null && (
@@ -257,3 +259,5 @@ export function CameraFeed({ isActive, onToggle, onRecognized, classId }: Camera
     </Card>
   )
 }
+
+export default CameraFeed
