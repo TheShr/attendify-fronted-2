@@ -125,7 +125,7 @@ export default function AttendanceSession() {
     }, DETECTION_FLUSH_MS);
   }
 
-  // Called by CameraFeed at high FPS -> we throttle updates into small batches
+  // Called by CameraFeed -> we throttle updates into small batches
   function handleFaceDetected(faces: DetectedFace[]) {
     if (!faces || faces.length === 0) return;
     // normalize timestamps (ensure Date)
@@ -305,7 +305,16 @@ export default function AttendanceSession() {
           <CameraFeed
             isActive={cameraActive}
             onToggle={setCameraActive}
-            onFaceDetected={handleFaceDetected}
+            onRecognized={(result) => {
+              if (!result) return;
+              const face: DetectedFace = {
+                id: String(result.studentId ?? ""),
+                name: result.recognizedName || result.name || "Unknown",
+                confidence: result.score ?? 0,
+                timestamp: new Date(result.createdAt),
+              };
+              handleFaceDetected([face]);
+            }}
           />
           <GeofencingStatus isActive={sessionActive} />
         </div>

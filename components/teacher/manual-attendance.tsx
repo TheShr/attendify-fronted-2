@@ -119,13 +119,9 @@ function ManualAttendance({ classId, onSubmit }: ManualAttendanceProps) {
     })
   }, [students, searchTerm])
 
-  const presentCount = useMemo(() => {
-    return Object.keys(selection).length
-  }, [selection])
+  const presentCount = useMemo(() => Object.keys(selection).length, [selection])
 
-  const lateCount = useMemo(() => {
-    return Object.values(selection).filter((status) => status === "late").length
-  }, [selection])
+  const lateCount = useMemo(() => Object.values(selection).filter((status) => status === "late").length, [selection])
 
   const handleToggleStudent = (studentId: number, value: boolean | "indeterminate") => {
     const isChecked = value === true
@@ -263,7 +259,7 @@ function ManualAttendance({ classId, onSubmit }: ManualAttendanceProps) {
         <ScrollArea className="h-72 rounded-md border">
           <div className="divide-y">
             {isLoading ? (
-              <div className="p-4 text-sm text-muted-foreground">Loading students?</div>
+              <div className="p-4 text-sm text-muted-foreground">Loading students...</div>
             ) : filteredStudents.length === 0 ? (
               <div className="p-4 text-sm text-muted-foreground">No students found for this class.</div>
             ) : (
@@ -289,7 +285,11 @@ function ManualAttendance({ classId, onSubmit }: ManualAttendanceProps) {
                         <Label htmlFor={`present-${student.studentId}`}>Present</Label>
                       </div>
                       {isSelected && (
-                        <Select value={status} onValueChange={(value) => handleStatusChange(student.studentId, value as "present" | "late")} disabled={isSaving}>
+                        <Select
+                          value={status}
+                          onValueChange={(value: "present" | "late") => handleStatusChange(student.studentId, value)}
+                          disabled={isSaving}
+                        >
                           <SelectTrigger className="w-28">
                             <SelectValue />
                           </SelectTrigger>
@@ -314,11 +314,11 @@ function ManualAttendance({ classId, onSubmit }: ManualAttendanceProps) {
           className="w-full"
         >
           <CheckCircle2 className="h-4 w-4 mr-2" />
-          {isSaving ? "Saving?" : "Save Attendance"}
+          {isSaving ? "Saving…" : "Save Attendance"}
         </Button>
       </CardContent>
     </Card>
   )
 }
-export default ManualAttendance;
-export { ManualAttendance };
+
+export default ManualAttendance

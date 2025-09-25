@@ -16,12 +16,12 @@ interface LocationData {
   timestamp: Date
 }
 
-export function GeofencingStatus({ isActive }: GeofencingStatusProps) {
+function GeofencingStatus({ isActive }: GeofencingStatusProps) {
   const [location, setLocation] = useState<LocationData | null>(null)
   const [locationStatus, setLocationStatus] = useState<"checking" | "inside" | "outside" | "error">("checking")
   const [error, setError] = useState<string>("")
 
-  // Mock campus boundaries (in a real app, this would be more sophisticated)
+  // Mock campus boundaries (replace with real ones in production)
   const campusBoundaries = {
     center: { lat: 40.7128, lng: -74.006 }, // Example: NYC coordinates
     radius: 500, // 500 meters radius
@@ -33,10 +33,7 @@ export function GeofencingStatus({ isActive }: GeofencingStatusProps) {
     } else {
       stopLocationTracking()
     }
-
-    return () => {
-      stopLocationTracking()
-    }
+    return stopLocationTracking
   }, [isActive])
 
   const startLocationTracking = () => {
@@ -58,23 +55,20 @@ export function GeofencingStatus({ isActive }: GeofencingStatusProps) {
         setLocation(newLocation)
         setError("")
 
-        // Check if location is within campus boundaries
         const isWithinBoundaries = checkLocationBoundaries(newLocation)
         setLocationStatus(isWithinBoundaries ? "inside" : "outside")
       },
-      (error) => {
-        console.error("Geolocation error:", error)
+      () => {
         setError("Unable to get location. Please enable location services.")
         setLocationStatus("error")
       },
       {
         enableHighAccuracy: true,
         timeout: 10000,
-        maximumAge: 60000, // 1 minute
+        maximumAge: 60000,
       },
     )
 
-    // Store watch ID for cleanup
     ;(window as any).geolocationWatchId = watchId
   }
 
@@ -88,14 +82,17 @@ export function GeofencingStatus({ isActive }: GeofencingStatusProps) {
   }
 
   const checkLocationBoundaries = (loc: LocationData): boolean => {
-    // Calculate distance from campus center using Haversine formula
-    const R = 6371e3 // Earth's radius in meters
+    const R = 6371e3 // Earth radius (m)
     const φ1 = (campusBoundaries.center.lat * Math.PI) / 180
     const φ2 = (loc.latitude * Math.PI) / 180
     const Δφ = ((loc.latitude - campusBoundaries.center.lat) * Math.PI) / 180
     const Δλ = ((loc.longitude - campusBoundaries.center.lng) * Math.PI) / 180
 
-    const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2)
+    const a =
+      Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+      Math.cos(φ1) * Math.cos(φ2) *
+      Math.sin(Δλ / 2) * Math.sin(Δλ / 2)
+
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
     const distance = R * c
 
@@ -185,3 +182,5 @@ export function GeofencingStatus({ isActive }: GeofencingStatusProps) {
     </Card>
   )
 }
+
+export default GeofencingStatus
