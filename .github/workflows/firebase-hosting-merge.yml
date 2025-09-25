@@ -1,5 +1,5 @@
 # Firebase Hosting GitHub Action Workflow
-# https://github.com/firebase/firebase-tools
+# Docs: https://firebase.google.com/docs/hosting/github-integration
 
 name: Deploy to Firebase Hosting on merge
 
@@ -14,9 +14,10 @@ jobs:
 
     steps:
       # 1. Check out repo
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      # 2. Set up Node.js (match your project's Node version)
+      # 2. Set up Node.js (adjust version if your project uses a different one)
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -33,7 +34,7 @@ jobs:
 
       # 5. Deploy to Firebase Hosting
       - name: Deploy to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0
+        uses: FirebaseExtended/action-hosting-deploy@v0.7.0   # use stable version
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_ATTENDIFY_D5487 }}
