@@ -78,7 +78,7 @@ export default function ManagementDashboardPage() {
 </style>
 </head>
 <body>
-  <h1>Smart Attendance � College Management Report</h1>
+  <h1>Smart Attendance ï¿½ College Management Report</h1>
 
   <h2>Key Indicators</h2>
   ${kpis.map(k => `<div class="kpi"><div>${k.label}</div><div><b>${k.value}</b></div></div>`).join('')}

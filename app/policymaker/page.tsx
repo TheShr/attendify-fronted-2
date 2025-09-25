@@ -156,7 +156,7 @@ export default function PolicymakerDashboard() {
 <html>
 <head>
 <meta charset="utf-8">
-<title>Policy Brief � ${range} � ${region}</title>
+<title>Policy Brief ï¿½ ${range} ï¿½ ${region}</title>
 <style>
   body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;padding:24px;color:#111}
   h1{font-size:22px;margin:0 0 8px}
@@ -169,8 +169,8 @@ export default function PolicymakerDashboard() {
 </style>
 </head>
 <body>
-  <h1>Smart Attendance � Policy Brief</h1>
-  <div class="muted">Timeframe: <b>${range}</b> � Region: <b>${region}</b></div>
+  <h1>Smart Attendance ï¿½ Policy Brief</h1>
+  <div class="muted">Timeframe: <b>${range}</b> ï¿½ Region: <b>${region}</b></div>
 
   <h2>Key Indicators</h2>
   ${kpis
@@ -223,7 +223,7 @@ export default function PolicymakerDashboard() {
   }
 
   return (
-    <DashboardLayout title="Policymaker � National KPIs" userType="policymaker" navigation={navigation}>
+    <DashboardLayout title="Policymaker ï¿½ National KPIs" userType="policymaker" navigation={navigation}>
       {/* Controls */}
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <div className="text-sm text-muted-foreground">Timeframe:</div>
@@ -359,9 +359,9 @@ export default function PolicymakerDashboard() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 text-sm text-muted-foreground">
-          <p>� Incentivize districts improving compliance from 65% ? 75% within the semester.</p>
-          <p>� Trigger early-warning outreach for sharp month-on-month declines.</p>
-          <p>� Standardize remote/online class compatibility reporting across regions.</p>
+          <p>ï¿½ Incentivize districts improving compliance from 65% ? 75% within the semester.</p>
+          <p>ï¿½ Trigger early-warning outreach for sharp month-on-month declines.</p>
+          <p>ï¿½ Standardize remote/online class compatibility reporting across regions.</p>
         </CardContent>
       </Card>
     </DashboardLayout>

@@ -50,9 +50,9 @@ const DATA_BY_TERM: Record<
     ops: { onlineCompat: 86, geofencing: 92 },
     complianceBands: [
       { band: '= 90%', institutions: 34, share: 27 },
-      { band: '80�89%', institutions: 41, share: 33 },
-      { band: '75�79%', institutions: 13, share: 11 },
-      { band: '60�74%', institutions: 28, share: 23 },
+      { band: '80ï¿½89%', institutions: 41, share: 33 },
+      { band: '75ï¿½79%', institutions: 13, share: 11 },
+      { band: '60ï¿½74%', institutions: 28, share: 23 },
       { band: '< 60%', institutions: 8, share: 6 }
     ],
     cohorts: [
@@ -73,9 +73,9 @@ const DATA_BY_TERM: Record<
     ops: { onlineCompat: 82, geofencing: 90 },
     complianceBands: [
       { band: '= 90%', institutions: 22, share: 19 },
-      { band: '80�89%', institutions: 36, share: 31 },
-      { band: '75�79%', institutions: 20, share: 17 },
-      { band: '60�74%', institutions: 29, share: 25 },
+      { band: '80ï¿½89%', institutions: 36, share: 31 },
+      { band: '75ï¿½79%', institutions: 20, share: 17 },
+      { band: '60ï¿½74%', institutions: 29, share: 25 },
       { band: '< 60%', institutions: 11, share: 9 }
     ],
     cohorts: [
@@ -94,9 +94,9 @@ const DATA_BY_TERM: Record<
     ops: { onlineCompat: 88, geofencing: 94 },
     complianceBands: [
       { band: '= 90%', institutions: 40, share: 30 },
-      { band: '80�89%', institutions: 45, share: 34 },
-      { band: '75�79%', institutions: 12, share: 9 },
-      { band: '60�74%', institutions: 26, share: 20 },
+      { band: '80ï¿½89%', institutions: 45, share: 34 },
+      { band: '75ï¿½79%', institutions: 12, share: 9 },
+      { band: '60ï¿½74%', institutions: 26, share: 20 },
       { band: '< 60%', institutions: 8, share: 6 }
     ],
     cohorts: [
@@ -125,7 +125,7 @@ export default function EducationDeptPage() {
   /* ----------------------------- Export actions ----------------------------- */
   function downloadCSV() {
     const lines: string[] = []
-    lines.push('Education Department � Insights')
+    lines.push('Education Department ï¿½ Insights')
     lines.push(`Term,${term},Region,${region}`)
     lines.push('')
     lines.push('KPI,Value,Delta')
@@ -161,7 +161,7 @@ export default function EducationDeptPage() {
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Education Dept � Brief (${term}, ${region})</title>
+<title>Education Dept ï¿½ Brief (${term}, ${region})</title>
 <style>
   body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;padding:24px;color:#111}
   h1{font-size:22px;margin:0 0 8px}
@@ -174,8 +174,8 @@ export default function EducationDeptPage() {
 </style>
 </head>
 <body>
-  <h1>Smart Attendance � Education Department Brief</h1>
-  <div class="muted">Term: <b>${term}</b> � Region: <b>${region}</b></div>
+  <h1>Smart Attendance ï¿½ Education Department Brief</h1>
+  <div class="muted">Term: <b>${term}</b> ï¿½ Region: <b>${region}</b></div>
 
   <h2>Key Indicators</h2>
   ${kpis.map(k => `<div class="kpi"><div>${k.label}</div><div><b>${k.value}</b> ${k.delta ? `(${k.delta})` : ''}</div></div>`).join('')}
@@ -301,7 +301,7 @@ export default function EducationDeptPage() {
             <div key={b.band}>
               <div className="flex items-center justify-between text-sm mb-2">
                 <span className="font-medium">{b.band}</span>
-                <span className="text-muted-foreground">{b.institutions} inst. � {b.share}%</span>
+                <span className="text-muted-foreground">{b.institutions} inst. ï¿½ {b.share}%</span>
               </div>
               <div className="h-2 w-full rounded bg-muted">
                 <div className="h-2 rounded bg-foreground" style={{ width: `${b.share}%` }} />
